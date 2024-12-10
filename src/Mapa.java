@@ -20,4 +20,5 @@ public class Mapa {
     public String getTipoTerritorio() {
         return tipoTerritorio;
     }
+    
 }
