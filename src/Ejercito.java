@@ -1,12 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Ejercito {
-    private String nombre;
-    private ArrayList<Soldado> soldados;
-    private char simbolo;
+    private String reino;
+    private List<Soldado> soldados;
 
-    public Ejercito(String nombre) {
-        this.nombre = nombre;
+    public Ejercito(String reino) {
+        this.reino = reino;
         this.soldados = new ArrayList<>();
     }
 
@@ -14,19 +14,19 @@ public class Ejercito {
         soldados.add(soldado);
     }
 
-    public ArrayList<Soldado> getSoldados() {
+    public List<Soldado> getSoldados() {
         return soldados;
     }
 
-    public void setSimbolo(char simbolo) {
-        this.simbolo = simbolo;
+    public String getReino() {
+        return reino;
     }
 
-    public char getSimbolo() {
-        return simbolo;
+    public int calcularPoderTotal() {
+        return soldados.stream().mapToInt(Soldado::calcularPoder).sum();
     }
 
-    public String getNombre() {
-        return nombre;
+    public double calcularPromedioVida() {
+        return soldados.stream().mapToInt(Soldado::getNivelVida).average().orElse(0);
     }
 }

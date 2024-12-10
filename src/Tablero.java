@@ -1,67 +1,38 @@
 import java.util.Random;
 
 public class Tablero {
-    private final int filas = 10;
-    private final int columnas = 10;
-    private Soldado[][] tablero = new Soldado[filas][columnas];
-    private Random random = new Random();
+    private int filas;
+    private int columnas;
+    private Soldado[][] grid;
 
-    public boolean posicionValida(int fila, int columna) {
-        return fila >= 0 && fila < filas && columna >= 0 && columna < columnas;
+    public Tablero(int filas, int columnas) {
+        this.filas = filas;
+        this.columnas = columnas;
+        this.grid = new Soldado[filas][columnas];
     }
 
-    public boolean posicionOcupada(int fila, int columna) {
-        return tablero[fila][columna] != null;
-    }
-
-    public void colocarSoldado(Soldado soldado, int fila, int columna) {
-        if (posicionValida(fila, columna) && !posicionOcupada(fila, columna)) {
-            tablero[fila][columna] = soldado;
-            soldado.setNivelVida(random.nextInt(3) + 3); // Asignar vida aleatoria
+    public boolean posicionarSoldado(Soldado soldado) {
+        Random random = new Random();
+        boolean colocado = false;
+        while (!colocado) {
+            int fila = random.nextInt(filas);
+            int columna = random.nextInt(columnas);
+            if (grid[fila][columna] == null) {
+                grid[fila][columna] = soldado;
+                soldado.setPosicion(fila, columna);
+                colocado = true;
+            }
         }
-    }
-
-    public void moverSoldado(int filaInicial, int columnaInicial, int filaDestino, int columnaDestino) {
-        if (!posicionValida(filaInicial, columnaInicial) || !posicionValida(filaDestino, columnaDestino)) {
-            System.out.println("Movimiento inválido. Fuera de los límites.");
-            return;
-        }
-
-        Soldado soldado = tablero[filaInicial][columnaInicial];
-        if (soldado == null) {
-            System.out.println("No hay soldado en la posición inicial.");
-            return;
-        }
-
-        if (posicionOcupada(filaDestino, columnaDestino)) {
-            Soldado oponente = tablero[filaDestino][columnaDestino];
-            realizarBatalla(soldado, oponente);
-        } else {
-            tablero[filaDestino][columnaDestino] = soldado;
-            tablero[filaInicial][columnaInicial] = null;
-        }
-    }
-
-    public void realizarBatalla(Soldado s1, Soldado s2) {
-        double totalVida = s1.getNivelVida() + s2.getNivelVida();
-        double probabilidadS1 = s1.getNivelVida() / totalVida;
-
-        if (Math.random() < probabilidadS1) {
-            System.out.println(s1.getNombre() + " ganó la batalla contra " + s2.getNombre());
-            s1.setNivelVida(s1.getNivelVida() + 1);
-        } else {
-            System.out.println(s2.getNombre() + " ganó la batalla contra " + s1.getNombre());
-            s2.setNivelVida(s2.getNivelVida() + 1);
-        }
+        return colocado;
     }
 
     public void mostrarTablero() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                if (tablero[i][j] != null) {
-                    System.out.print(tablero[i][j].getSimbolo() + " ");
+                if (grid[i][j] == null) {
+                    System.out.print("[  ] ");
                 } else {
-                    System.out.print(". ");
+                    System.out.print("[" + grid[i][j].getNombre().charAt(0) + "] ");
                 }
             }
             System.out.println();
