@@ -1,59 +1,46 @@
-public class Soldado {
-    private String nombre;
-    private int nivelVida;
-    private int nivelAtaque;
-    private int nivelDefensa;
-    private char simbolo;
-    private static int contador=0;
+public abstract class Soldado {
+    protected String nombre;
+    protected int nivelVida;
+    protected int nivelAtaque;
+    protected int nivelDefensa;
+    protected int fila;
+    protected int columna;
 
-    public Soldado() {
-        contador++;
-    }
-
-    public void setSimbolo(char simbolo) {
-        this.simbolo = simbolo;
-    }
-
-    public char getSimbolo() {
-        return simbolo;
-    }
-
-    public void setNombre(String nombre) {
+    public Soldado(String nombre, int nivelVida, int nivelAtaque, int nivelDefensa) {
         this.nombre = nombre;
+        this.nivelVida = nivelVida;
+        this.nivelAtaque = nivelAtaque;
+        this.nivelDefensa = nivelDefensa;
     }
+
+    public abstract void realizarAccionEspecial();
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNivelVida(int nivelVida) {
-        this.nivelVida = nivelVida;
     }
 
     public int getNivelVida() {
         return nivelVida;
     }
 
-    public void setNivelAtaque(int nivelAtaque) {
-        this.nivelAtaque = nivelAtaque;
+    public void setNivelVida(int nivelVida) {
+        this.nivelVida = nivelVida;
     }
 
-    public int getNivelAtaque() {
-        return nivelAtaque;
+    public int getFila() {
+        return fila;
     }
 
-    public void setNivelDefensa(int nivelDefensa) {
-        this.nivelDefensa = nivelDefensa;
+    public int getColumna() {
+        return columna;
     }
 
-    public int getNivelDefensa() {
-        return nivelDefensa;
+    public void setPosicion(int fila, int columna) {
+        this.fila = fila;
+        this.columna = columna;
     }
 
-    public void atacar(Soldado otroSoldado) {
-        int daño = nivelAtaque - otroSoldado.getNivelDefensa();
-        if (daño > 0) {
-            otroSoldado.setNivelVida(otroSoldado.getNivelVida() - daño);
-        }
+    public int calcularPoder() {
+        return nivelVida + nivelAtaque + nivelDefensa;
     }
 }
