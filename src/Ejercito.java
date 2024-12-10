@@ -29,4 +29,8 @@ public class Ejercito {
     public double calcularPromedioVida() {
         return soldados.stream().mapToInt(Soldado::getNivelVida).average().orElse(0);
     }
+
+    public int contarSoldadosPorTipo(Class<?> tipo) {
+        return (int) soldados.stream().filter(tipo::isInstance).count();
+    }
 }
